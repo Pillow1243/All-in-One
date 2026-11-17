@@ -17,11 +17,11 @@ import {
   pickRandom, qrPayload, toJalali, toSlug, validateNationalId, validateSheba, wcagGrade,
 } from '../services/smartTools';
 
-describe('OmniForge Pro Catalog Integrity (31 Categories & 1,000+ Tools)', () => {
-  it('contains all 31 distinct tool categories', () => {
-    expect(CATEGORIES.length).toBe(31);
+describe('OmniForge Pro Catalog Integrity (32 Categories & 1,000+ Tools)', () => {
+  it('contains all 32 distinct tool categories', () => {
+    expect(CATEGORIES.length).toBe(32);
     const ids = new Set(CATEGORIES.map((c) => c.id));
-    expect(ids.size).toBe(31);
+    expect(ids.size).toBe(32);
   });
 
   it('ships the Smart Utilities 2.0 category with working tools', () => {
@@ -32,8 +32,16 @@ describe('OmniForge Pro Catalog Integrity (31 Categories & 1,000+ Tools)', () =>
     expect(smartTools.every((t) => t.nameEn.length > 1)).toBe(true);
   });
 
-  it('contains at least 950 uniquely identified tools routed to valid categories', () => {
-    expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(1000);
+  it('ships 12 operational Industrial Workshop calculators', () => {
+    const workshopTools = getToolsByCategory('workshop');
+    expect(workshopTools).toHaveLength(12);
+    expect(workshopTools.map((tool) => tool.mode)).toContain('cutting');
+    expect(workshopTools.map((tool) => tool.mode)).toContain('ohms');
+    expect(workshopTools.map((tool) => tool.mode)).toContain('maintenance');
+  });
+
+  it('contains 1,072 uniquely identified tools routed to valid categories', () => {
+    expect(ALL_TOOLS.length).toBe(1072);
     expect(Object.keys(TOOL_MAP).length).toBe(ALL_TOOLS.length);
     for (const tool of ALL_TOOLS) {
       expect(CATEGORY_MAP[tool.categoryId]).toBeDefined();

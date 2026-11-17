@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { AppSettings, CategoryMeta, ToolItem } from './types';
 import { ALL_TOOLS, CATEGORIES, CATEGORY_MAP, TOOL_MAP, getToolsByCategory } from './data/catalog';
 import { PUBLIC_APIS_DIRECTORY } from './data/publicApisData';
@@ -12,8 +14,8 @@ import { CommandPalette } from './components/CommandPalette';
 import { WhatsNew } from './components/WhatsNew';
 import {
   ArrowUp, Check, ChevronLeft, ChevronRight, Clock, Command, Globe, Grid2X2,
-  Home, Info, Lock, Moon, Search, Settings, Share2, ShieldCheck, Sparkles,
-  Star, Sun, Wifi, WifiOff, X, Zap,
+  Home, Info, Lock, Moon, Search, Settings, Share2, ShieldCheck,
+  Star, Sun, Wifi, WifiOff, Wrench, X,
 } from 'lucide-react';
 
 type NavView = 'home' | 'categories' | 'all' | 'favorites' | 'category' | 'tool';
@@ -32,16 +34,6 @@ const parseHash = (): Route => {
   if (view === 'category' && CATEGORY_MAP[id]) return { view: 'category', id };
   if (view === 'all' || view === 'favorites' || view === 'categories') return { view };
   return { view: 'home' };
-};
-
-const greetingFor = (isRtl: boolean, name: string): string => {
-  const hour = new Date().getHours();
-  const base = hour < 5 ? (isRtl ? 'شب بخیر' : 'Good night')
-    : hour < 12 ? (isRtl ? 'صبح بخیر' : 'Good morning')
-      : hour < 17 ? (isRtl ? 'وقت بخیر' : 'Good afternoon')
-        : hour < 21 ? (isRtl ? 'عصر بخیر' : 'Good evening')
-          : (isRtl ? 'شب بخیر' : 'Good night');
-  return name ? `${base}، ${name}` : base;
 };
 
 export const App: React.FC = () => {
@@ -81,10 +73,16 @@ export const App: React.FC = () => {
     html.style.setProperty('--accent-primary', settings.accentPrimary);
     html.style.setProperty('--accent-secondary', settings.accentSecondary);
     html.style.fontSize = `${Math.round(16 * settings.fontScale)}px`;
-    const themeColor = settings.theme === 'light' ? '#f8fafc' : settings.theme === 'oled' ? '#000000' : '#070b18';
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FFD400');
     saveSettings(settings);
   }, [settings, isRtl]);
+
+  // Yellow safety-color system chrome; keep dark foreground glyphs for legibility.
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+    void StatusBar.setStyle({ style: Style.Light }).catch(() => {});
+    void StatusBar.setBackgroundColor({ color: '#FFD400' }).catch(() => {});
+  }, []);
 
   /* ── routing ───────────────────────────────────────────────── */
   useEffect(() => {
@@ -169,7 +167,7 @@ export const App: React.FC = () => {
     const next = exists ? favorites.filter((id) => id !== toolId) : [toolId, ...favorites];
     setFavorites(next);
     saveData('favorites', next);
-    showToast(exists ? (isRtl ? 'از برگزیده‌ها حذف شد' : 'Removed from starred') : (isRtl ? 'به برگزیده‌ها اضافه شد ⭐' : 'Added to starred ⭐'), 'success');
+    showToast(exists ? (isRtl ? 'از فهرست منتخب‌ها حذف شد' : 'Removed from pinned list') : (isRtl ? 'به فهرست منتخب‌ها افزوده شد' : 'Added to pinned list'), 'success');
   };
 
   const shareTool = async (tool: ToolItem) => {
@@ -182,8 +180,8 @@ export const App: React.FC = () => {
     saveData('seenVersion', APP_VERSION);
     setShowWhatsNew(false);
     if (tour) {
-      navigate('#/category/smart');
-      showToast(isRtl ? '۲۴ ابزار تازه در انتظار شماست ✨' : '24 brand-new tools are waiting ✨', 'success');
+      navigate('#/category/workshop');
+      showToast(isRtl ? 'دسته کارگاه صنعتی باز شد' : 'Industrial Workshop opened', 'info');
     }
   };
 
@@ -272,13 +270,13 @@ export const App: React.FC = () => {
       <header className="app-header sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2.5 sm:px-6">
           <button onClick={() => navigate('#/home')} className="flex shrink-0 items-center gap-2.5" aria-label={APP_NAME}>
-            <img src="./icons/icon-192.png" alt={APP_NAME} className="h-9 w-9 rounded-xl shadow-lg shadow-cyan-500/20" />
+            <img src="./icons/icon-192.png" alt={APP_NAME} className="h-9 w-9 rounded-lg border border-amber-300/30" />
             <span className="text-start leading-tight">
               <span className="block text-sm font-black tracking-tight sm:text-base">
-                Omni<span className="gradient-text">Forge</span> <span className="text-[10px] font-bold text-cyan-300 align-super">2.0</span>
+                Omni<span className="gradient-text">Forge</span> <span className="align-super font-mono text-[9px] font-bold text-amber-300">3.0</span>
               </span>
-              <span className="hidden text-[10px] text-slate-400 sm:block">
-                {CATEGORIES.length} {isRtl ? 'دسته' : 'categories'} · {ALL_TOOLS.length} {isRtl ? 'ابزار رایگان' : 'free tools'}
+              <span className="hidden font-mono text-[9px] tracking-wide text-slate-400 sm:block">
+                {CATEGORIES.length} {isRtl ? 'دسته' : 'CATEGORIES'} · {ALL_TOOLS.length} {isRtl ? 'ابزار' : 'TOOLS'}
               </span>
             </span>
           </button>
@@ -288,7 +286,7 @@ export const App: React.FC = () => {
             className="group flex flex-1 items-center gap-2 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-2 text-start text-xs text-slate-400 transition hover:border-cyan-400/40 hover:text-slate-200"
           >
             <Search className="h-4 w-4 text-slate-500 group-hover:text-cyan-300" />
-            <span className="flex-1 truncate">{isRtl ? 'جستجوی سریع در همه ابزارها…' : 'Search all tools…'}</span>
+            <span className="flex-1 truncate">{isRtl ? 'جستجو در مجموعه ابزار…' : 'Search tool index…'}</span>
             <kbd className="hidden items-center gap-0.5 rounded-md border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] sm:inline-flex">
               <Command className="h-2.5 w-2.5" />K
             </kbd>
@@ -361,48 +359,47 @@ export const App: React.FC = () => {
         {/* ── HOME ──────────────────────────────────────────────── */}
         {!searchQuery && route.view === 'home' && (
           <>
-            <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-indigo-950/70 to-slate-950 p-5 shadow-2xl sm:p-7">
-              <div className="pointer-events-none absolute inset-0 grid-mask opacity-50" aria-hidden />
-              <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div className="max-w-2xl space-y-3">
-                  <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3 py-1 text-[11px] font-bold text-cyan-300">
+            <section className="anvil-hero p-4 sm:p-7">
+              <div className="anvil-hero-content flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl space-y-4">
+                  <div className="anvil-stamp">
                     <ShieldCheck className="h-3.5 w-3.5" />
-                    {isRtl ? '۱۰۰٪ رایگان · بدون تبلیغات · آفلاین‌محور' : '100% free · ad-free · offline-first'}
+                    OMNIFORGE / ANVIL SYSTEMS / BUILD 03
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400">{greetingFor(isRtl, settings.userName)}</p>
-                    <h1 className="mt-1 text-2xl font-black leading-tight tracking-tight sm:text-[2rem]">
-                      {isRtl ? 'همه‌کاره‌ای که واقعاً کار می‌کند' : 'The toolbox that actually works'}
+                    <p className="font-mono text-[9px] tracking-[0.16em] text-slate-500">TOOL CONTROL CENTER <span className="text-amber-300">·</span> {APP_VERSION}</p>
+                    <h1 className="anvil-hero-title mt-2 text-2xl font-black leading-tight sm:text-[2rem]">
+                      {isRtl ? 'جعبه‌ابزار دیجیتال. بدون حاشیه.' : 'Digital tool chest. No surplus.'}
                     </h1>
                   </div>
                   <p className="max-w-xl text-xs leading-relaxed text-slate-300 sm:text-sm">
                     {isRtl
-                      ? `${ALL_TOOLS.length} ابزار عملیاتی در ${CATEGORIES.length} دسته‌بندی: استودیو PDF، ویرایش تصویر و ویدیو، DAW صوتی، ابزارهای توسعه‌دهنده و امنیت، مالی، سلامت، بازی و ${PUBLIC_APIS_DIRECTORY.length} API رایگان — همه روی دستگاه شما.`
-                      : `${ALL_TOOLS.length} working tools across ${CATEGORIES.length} categories — PDF, media studios, dev & security, finance, health, games and ${PUBLIC_APIS_DIRECTORY.length} free APIs. All on-device.`}
+                      ? `مجموعه‌ای از ${ALL_TOOLS.length} ابزار عملیاتی در ${CATEGORIES.length} دسته؛ برای پردازش فایل، محاسبات، عیب‌یابی و گردش‌کارهای روزمره. ابزارهای محلی روی همین دستگاه اجرا می‌شوند.`
+                      : `${ALL_TOOLS.length} operational tools across ${CATEGORIES.length} categories for file work, calculations, diagnostics and daily workflows. Local tools run on this device.`}
                   </p>
                   <div className="flex flex-wrap gap-2 pt-1">
                     <button onClick={() => setPaletteOpen(true)} className="omni-btn omni-btn-primary text-xs">
-                      <Search className="h-4 w-4" /> {isRtl ? 'جستجوی سریع (Ctrl+K)' : 'Quick search (Ctrl+K)'}
+                      <Search className="h-4 w-4" /> {isRtl ? 'پالت ابزار (Ctrl+K)' : 'Tool palette (Ctrl+K)'}
                     </button>
-                    <button onClick={() => openTool(TOOL_MAP['smart-words'] || getToolsByCategory('smart')[0])} className="omni-btn omni-btn-secondary text-xs">
-                      <Zap className="h-4 w-4 text-emerald-300" /> {isRtl ? 'ابزارهای هوشمند ۲.۰' : 'Smart Utilities 2.0'}
+                    <button onClick={() => openCategory(CATEGORY_MAP.workshop)} className="omni-btn omni-btn-secondary text-xs">
+                      <Wrench className="h-4 w-4 text-amber-300" /> {isRtl ? 'کارگاه صنعتی' : 'Industrial Workshop'}
                     </button>
                     <button onClick={() => setShowWhatsNew(true)} className="omni-btn omni-btn-secondary text-xs">
-                      <Sparkles className="h-4 w-4 text-amber-300" /> {isRtl ? 'تازه‌ها در ۲.۰' : "What's new in 2.0"}
+                      <Info className="h-4 w-4 text-amber-300" /> {isRtl ? 'یادداشت نسخه ۳.۰' : 'Release record 3.0'}
                     </button>
                   </div>
                 </div>
 
                 <div className="grid shrink-0 grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2">
                   {[
-                    { value: CATEGORIES.length, label: isRtl ? 'دسته‌بندی' : 'Categories', tone: 'text-cyan-300' },
-                    { value: `${ALL_TOOLS.length}`, label: isRtl ? 'ابزار واقعی' : 'Real tools', tone: 'text-violet-300' },
-                    { value: PUBLIC_APIS_DIRECTORY.length, label: isRtl ? 'API رایگان' : 'Free APIs', tone: 'text-emerald-300' },
-                    { value: '۰', label: isRtl ? 'تبلیغ / اشتراک' : 'Ads / fees', tone: 'text-amber-300' },
+                    { value: CATEGORIES.length, label: isRtl ? 'دسته' : 'CATEGORIES' },
+                    { value: ALL_TOOLS.length, label: isRtl ? 'ابزار' : 'TOOLS' },
+                    { value: PUBLIC_APIS_DIRECTORY.length, label: isRtl ? 'فهرست API' : 'API INDEX' },
+                    { value: 'LOCAL', label: isRtl ? 'پردازش' : 'EXECUTION' },
                   ].map((stat) => (
-                    <div key={stat.label} className="rounded-2xl border border-white/10 bg-black/30 p-3 text-center">
-                      <div className={`text-xl font-black sm:text-2xl ${stat.tone}`}>{stat.value}</div>
-                      <div className="text-[10px] text-slate-400">{stat.label}</div>
+                    <div key={stat.label} className="anvil-readout">
+                      <div className="anvil-readout-value">{stat.value}</div>
+                      <div className="anvil-readout-label">{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -413,10 +410,10 @@ export const App: React.FC = () => {
               <section className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h2 className="flex items-center gap-1.5 text-xs font-bold text-slate-400">
-                    <Clock className="h-3.5 w-3.5 text-cyan-400" /> {isRtl ? 'ادامه از جایی که بودید' : 'Continue where you left off'}
+                    <Clock className="h-3.5 w-3.5 text-amber-300" /> {isRtl ? 'دسترسی‌های اخیر و منتخب' : 'RECENT & PINNED TOOLS'}
                   </h2>
                   <button onClick={() => navigate('#/favorites')} className="text-[11px] text-cyan-400 hover:underline">
-                    {isRtl ? 'همه برگزیده‌ها' : 'All starred'}
+                    {isRtl ? 'فهرست منتخب‌ها' : 'PINNED INDEX'}
                   </button>
                 </div>
                 <div className="omni-scroll flex gap-2 overflow-x-auto pb-1">
@@ -440,7 +437,7 @@ export const App: React.FC = () => {
               <div className="flex items-end justify-between">
                 <div>
                   <h2 className="text-sm font-extrabold sm:text-base">{isRtl ? `همه ${CATEGORIES.length} دسته‌بندی` : `All ${CATEGORIES.length} categories`}</h2>
-                  <p className="text-[11px] text-slate-400">{isRtl ? 'روی هر دسته بزنید یا از جستجوی سریع استفاده کنید' : 'Tap a category or use quick search'}</p>
+                  <p className="font-mono text-[9px] tracking-wide text-slate-400">{isRtl ? 'فهرست ماژول‌ها · انتخاب دسته برای مشاهده ابزارها' : 'MODULE INDEX · SELECT A CATEGORY TO VIEW TOOLS'}</p>
                 </div>
                 <button onClick={() => navigate('#/all')} className="text-xs text-cyan-400 hover:underline">
                   {isRtl ? `فهرست کامل ${ALL_TOOLS.length} ابزار` : `All ${ALL_TOOLS.length} tools`}
@@ -456,11 +453,11 @@ export const App: React.FC = () => {
                       className="group glass-card flex flex-col justify-between gap-3 rounded-2xl p-3.5 text-start transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-400/40"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${category.gradient} text-white shadow-lg`}>
+                        <div className="anvil-icon-block">
                           <CategoryIcon name={category.icon} className="h-5 w-5" />
                         </div>
-                        {category.id === 'smart' && (
-                          <span className="rounded-md bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-black text-emerald-300">NEW</span>
+                        {category.id === 'workshop' && (
+                          <span className="rounded-sm border border-amber-400/40 bg-amber-300/10 px-1.5 py-0.5 font-mono text-[8px] font-black tracking-widest text-amber-300">ANVIL</span>
                         )}
                       </div>
                       <div>
@@ -484,7 +481,7 @@ export const App: React.FC = () => {
                 <div>
                   <div className="text-xs font-bold">{APP_NAME} v{APP_VERSION}</div>
                   <div className="text-[10px] text-slate-400">
-                    {isRtl ? 'متن‌باز، بدون ردیابی، ساخته‌شده برای فارسی' : 'Open source, no tracking, built for Persian'}
+                    {isRtl ? 'متن‌باز · پردازش محلی · رابط فارسی' : 'OPEN SOURCE · LOCAL PROCESSING · PERSIAN UI'}
                   </div>
                 </div>
               </div>
@@ -493,7 +490,7 @@ export const App: React.FC = () => {
                   <Info className="h-3 w-3" /> {isRtl ? 'درباره و تنظیمات' : 'About & settings'}
                 </button>
                 <button onClick={() => setShowWhatsNew(true)} className="chip">
-                  <Sparkles className="h-3 w-3" /> {isRtl ? 'یادداشت نسخه' : 'Release notes'}
+                  <Info className="h-3 w-3" /> {isRtl ? 'یادداشت نسخه' : 'Release notes'}
                 </button>
               </div>
             </section>
@@ -513,7 +510,7 @@ export const App: React.FC = () => {
                     onClick={() => openCategory(category)}
                     className="glass-card flex items-center gap-3.5 rounded-2xl p-4 text-start transition hover:border-cyan-400/40"
                   >
-                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${category.gradient} text-white`}>
+                    <div className="anvil-icon-block h-12 w-12 shrink-0">
                       <CategoryIcon name={category.icon} className="h-6 w-6" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -543,7 +540,7 @@ export const App: React.FC = () => {
                 <div key={category.id} className="glass-card space-y-2.5 rounded-2xl p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className={`flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br ${category.gradient} text-white`}>
+                      <span className="anvil-icon-block !h-7 !w-7 !rounded-lg">
                         <CategoryIcon name={category.icon} className="h-4 w-4" />
                       </span>
                       <h3 className="text-sm font-bold">{isRtl ? category.nameFa : category.nameEn}</h3>
@@ -608,7 +605,7 @@ export const App: React.FC = () => {
         {/* ── CATEGORY DETAIL ───────────────────────────────────── */}
         {!searchQuery && route.view === 'category' && activeCategory && (
           <section className="space-y-4">
-            <div className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${activeCategory.gradient} p-5 text-white shadow-xl`}>
+            <div className={`anvil-category-hero relative overflow-hidden bg-gradient-to-br ${activeCategory.gradient} p-5 text-white shadow-xl`}>
               <div className="relative flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-3">
                   <button onClick={() => navigate('#/home')} className="rounded-xl bg-black/25 p-2 transition hover:bg-black/40" aria-label={isRtl ? 'بازگشت' : 'Back'}>
@@ -779,7 +776,7 @@ export const App: React.FC = () => {
                 : 'border-cyan-400/50 bg-slate-900/95 text-white'
           }`}
         >
-          {toast.type === 'success' ? <Check className="h-4 w-4" /> : toast.type === 'error' ? <X className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
+          {toast.type === 'success' ? <Check className="h-4 w-4" /> : toast.type === 'error' ? <X className="h-4 w-4" /> : <Info className="h-4 w-4" />}
           {toast.msg}
         </div>
       )}

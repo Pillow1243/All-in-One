@@ -1,10 +1,13 @@
-// OmniForge Pro — brand asset generator (v2)
-// Single source of truth: the geometric mark below. Every icon, splash and
+// OmniForge Pro — brand asset generator (v3 "ANVIL")
+// Single source of truth: the hex-nut mark below. Every icon, splash and
 // store/PWA asset is rendered from it deterministically, so the shipped
 // artwork can never drift from the source.
 //
 //   node scripts/generate-brand-assets.mjs
 //
+// Mark: a machined hex nut — flat-top hexagon in safety yellow (#FFD400)
+// with a black hexagonal bore, on a near-black plate. Industrial, geometric,
+// readable at 48px. No gradients-as-decoration, no glow, no AI clichés.
 import { Resvg } from '@resvg/resvg-js';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -13,22 +16,20 @@ const ROOT = join(import.meta.dirname, '..');
 const CANVAS = 1024;
 const CENTER = CANVAS / 2;
 
-const BG_DEEP = '#080d1e';
-const BG_TOP = '#131c42';
-const RING = '#ffffff';
-const ACCENT = '#ffb020';
+const PLATE = '#0A0A0A';
+const PLATE_TOP = '#171717';
+const NUT = '#FFD400';
+const NUT_EDGE = '#E6BE00';
 
-const R_OUTER = 316;
-const R_INNER = 202;
-const GAP_WIDTH = 34;
-const GAP_OVERHANG = 11;
-const DIAMOND_HALF_DIAGONAL = 82;
+const R_OUTER = 332; // hexagon circumradius (flat-top)
+const R_BORE = 152; // bore circumradius
+const CHAMFER = 26; // chamfer ring width inside the bore edge
 
-/** Regular octagon vertices, flats facing top/bottom/left/right. */
-function octagon(radius, cx = CENTER, cy = CENTER) {
+/** Flat-top hexagon vertices (vertices at 0°, 60°, …). */
+function hexagon(radius, cx = CENTER, cy = CENTER) {
   const points = [];
-  for (let i = 0; i < 8; i += 1) {
-    const angle = ((22.5 + i * 45) * Math.PI) / 180;
+  for (let i = 0; i < 6; i += 1) {
+    const angle = (i * 60 * Math.PI) / 180;
     points.push([cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)]);
   }
   return points;
@@ -36,47 +37,28 @@ function octagon(radius, cx = CENTER, cy = CENTER) {
 
 const toPath = (points) => `M${points.map(([x, y]) => `${x.toFixed(2)} ${y.toFixed(2)}`).join('L')}Z`;
 
-function gapRects() {
-  const band = R_OUTER - R_INNER;
-  const mid = (R_OUTER + R_INNER) / 2;
-  const height = band + GAP_OVERHANG * 2;
-  return [45, 135, 225, 315]
-    .map((angle, index) => {
-      const rad = (angle * Math.PI) / 180;
-      const cx = CENTER + mid * Math.cos(rad);
-      const cy = CENTER + mid * Math.sin(rad);
-      return `<rect key="${index}" x="${(cx - GAP_WIDTH / 2).toFixed(2)}" y="${(cy - height / 2).toFixed(2)}" width="${GAP_WIDTH}" height="${height.toFixed(2)}" transform="rotate(${angle - 90} ${cx.toFixed(2)} ${cy.toFixed(2)})" fill="#000"/>`;
-    })
-    .join('\n');
-}
-
 /** The mark alone, drawn on a transparent canvas. */
 function markSvg({ scale = 1, size = CANVAS } = {}) {
-  const ringPath = `${toPath(octagon(R_OUTER))}${toPath(octagon(R_INNER).slice(1))}`;
   const offset = (size - size * scale) / 2;
+  const nutPath = `${toPath(hexagon(R_OUTER))}${toPath(hexagon(R_BORE))}`;
+  const chamferPath = `${toPath(hexagon(R_BORE + CHAMFER))}${toPath(hexagon(R_BORE))}`;
   return `
   <g transform="translate(${offset} ${offset}) scale(${scale})">
-    <defs>
-      <mask id="forge-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="${CANVAS}" height="${CANVAS}">
-        <rect x="0" y="0" width="${CANVAS}" height="${CANVAS}" fill="#fff"/>
-        ${gapRects().replace(/ key="\d+"/g, '')}
-      </mask>
-    </defs>
-    <path d="${ringPath}" fill="${RING}" fill-rule="evenodd" mask="url(#forge-gaps)"/>
-    <rect x="${CENTER - DIAMOND_HALF_DIAGONAL}" y="${CENTER - DIAMOND_HALF_DIAGONAL}" width="${DIAMOND_HALF_DIAGONAL * 2}" height="${DIAMOND_HALF_DIAGONAL * 2}" transform="rotate(45 ${CENTER} ${CENTER})" fill="${ACCENT}"/>
+    <path d="${nutPath}" fill="${NUT}" fill-rule="evenodd"/>
+    <path d="${chamferPath}" fill="${NUT_EDGE}" fill-rule="evenodd"/>
   </g>`;
 }
 
 function background({ shape = 'square' } = {}) {
   if (shape === 'transparent') return '';
-  const gradient = `<defs><linearGradient id="forge-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${BG_TOP}"/><stop offset="55%" stop-color="#0c1330"/><stop offset="100%" stop-color="${BG_DEEP}"/>
-    </linearGradient></defs>`;
+  const gradient = `<defs><radialGradient id="anvil-bg" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="${PLATE_TOP}"/><stop offset="62%" stop-color="#101010"/><stop offset="100%" stop-color="${PLATE}"/>
+    </radialGradient></defs>`;
   if (shape === 'circle') {
-    return `${gradient}<circle cx="${CENTER}" cy="${CENTER}" r="${CENTER}" fill="url(#forge-bg)"/>`;
+    return `${gradient}<circle cx="${CENTER}" cy="${CENTER}" r="${CENTER}" fill="url(#anvil-bg)"/>`;
   }
   const rx = shape === 'rounded' ? 190 : 0;
-  return `${gradient}<rect x="0" y="0" width="${CANVAS}" height="${CANVAS}" rx="${rx}" fill="url(#forge-bg)"/>`;
+  return `${gradient}<rect x="0" y="0" width="${CANVAS}" height="${CANVAS}" rx="${rx}" fill="url(#anvil-bg)"/>`;
 }
 
 function iconSvg({ shape = 'square', scale = 1 } = {}) {
@@ -87,11 +69,11 @@ function iconSvg({ shape = 'square', scale = 1 } = {}) {
 }
 
 function splashSvg(width, height) {
-  const markSize = Math.min(width, height) * 0.46;
+  const markSize = Math.min(width, height) * 0.52;
   const scale = markSize / (R_OUTER * 2);
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <defs><radialGradient id="sp" cx="50%" cy="42%" r="75%">
-    <stop offset="0%" stop-color="#16204a"/><stop offset="60%" stop-color="#0b1128"/><stop offset="100%" stop-color="${BG_DEEP}"/>
+  <defs><radialGradient id="sp" cx="50%" cy="42%" r="78%">
+    <stop offset="0%" stop-color="#1b1b1b"/><stop offset="58%" stop-color="#0d0d0d"/><stop offset="100%" stop-color="${PLATE}"/>
   </radialGradient></defs>
   <rect x="0" y="0" width="${width}" height="${height}" fill="url(#sp)"/>
   <g transform="translate(${(width - CANVAS) / 2} ${(height - CANVAS) / 2})">
@@ -115,7 +97,7 @@ function write(path, buffer) {
   console.log(`  ✓ ${path} (${(buffer.length / 1024).toFixed(1)} KB)`);
 }
 
-console.log('OmniForge Pro — generating brand assets\n');
+console.log('OmniForge Pro — generating brand assets (v3 ANVIL)\n');
 
 // Source of truth
 write('assets/icon.svg', Buffer.from(iconSvg({ shape: 'square' }), 'utf8'));
@@ -174,4 +156,4 @@ for (const [folder, [w, h]] of Object.entries(SPLASH)) {
 }
 write('android/app/src/main/res/drawable/splash.png', render(splashSvg(1080, 1920), 1080, 1920));
 
-console.log('\nDone. Mark: four forged segments + amber core.');
+console.log('\nDone. Mark: hex nut (safety yellow on black plate).');

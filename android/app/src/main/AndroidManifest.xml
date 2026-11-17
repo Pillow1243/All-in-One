@@ -43,7 +43,7 @@
         </provider>
     </application>
 
-    <!-- Core Permissions for OmniForge Pro 30-Category Super-App -->
+    <!-- Core permissions for OmniForge Pro v3.0.0 / 32-category toolbox -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

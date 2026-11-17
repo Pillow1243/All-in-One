@@ -4,7 +4,7 @@ import { PUBLIC_APIS_DIRECTORY } from '../data/publicApisData';
 import { ALL_TOOLS, CATEGORIES } from '../data/catalog';
 import { fetchLatestAppRelease } from '../services/freeApis';
 import { loadData } from '../services/storage';
-import { Globe, Plug, BarChart3, RefreshCw, Play, Sparkles } from 'lucide-react';
+import { Globe, Plug, BarChart3, RefreshCw, Play, Settings2 } from 'lucide-react';
 
 type PlatTab = 'apis' | 'plugins' | 'analytics' | 'i18n' | 'updates' | 'account' | 'system' | 'sdk' | 'sync';
 
@@ -52,7 +52,7 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
       let pretty = txt;
       try { pretty = JSON.stringify(JSON.parse(txt), null, 2); } catch {}
       setLiveApiResp({ name, json: pretty.slice(0, 1800) });
-      onToast(`پاسخ زنده از ${name} دریافت شد!`, 'success');
+      onToast(`پاسخ API از ${name} دریافت شد`, 'success');
     } catch {
       onToast('خطا در فراخوانی API (نیاز به اینترنت)', 'error');
     }
@@ -62,12 +62,12 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
     <div className="space-y-4">
       <div className="flex gap-1.5 overflow-x-auto pb-2">
         {[
-          ['apis', `کاوشگر ${PUBLIC_APIS_DIRECTORY.length} API رایگان`],
+          ['apis', `کاوشگر ${PUBLIC_APIS_DIRECTORY.length} API عمومی`],
           ['plugins', 'پلاگین و مارکت‌پلیس'],
           ['i18n', 'زبان‌ها و RTL/LTR'],
           ['analytics', 'آمار و لاگ سیستم'],
           ['updates', 'آپدیت APK گیت‌هاب'],
-          ['account', 'حساب و رایگان همیشگی'],
+          ['account', 'حساب و مجوز'],
         ].map(([id, lbl]) => (
           <button key={id} onClick={() => setTab(id as PlatTab)} className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold ${tab === id ? 'bg-gradient-to-r from-slate-600 to-cyan-600 text-white' : 'bg-slate-800/70 text-slate-300'}`}>
             {lbl}
@@ -184,7 +184,7 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
       {tab === 'updates' && (
         <div className="glass-card rounded-2xl p-4 space-y-3 text-xs">
           <h3 className="font-bold text-sm flex items-center gap-2"><RefreshCw className="w-4 h-4 text-cyan-400" /> بررسی زنده آپدیت APK از ریلیز گیت‌هاب</h3>
-          <div>نسخه فعلی نصب‌شده: <strong className="font-mono text-emerald-400">v2.0.0 (OmniForge Pro)</strong></div>
+          <div>نسخه فعلی نصب‌شده: <strong className="font-mono text-emerald-400">v3.0.0 (OmniForge Pro)</strong></div>
           <button
             onClick={async () => {
               try {
@@ -208,12 +208,12 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
         </div>
       )}
 
-      {/* Account & Free Forever */}
+      {/* Account & local license state */}
       {tab === 'account' && (
         <div className="glass-card rounded-2xl p-4 space-y-3 text-xs">
-          <h3 className="font-bold text-sm flex items-center gap-2"><Sparkles className="w-4 h-4 text-amber-400" /> حساب کاربری و تضمین ۱۰۰٪ رایگان همیشگی</h3>
-          <div className="rounded-xl bg-emerald-950/50 border border-emerald-500/40 p-3 text-emerald-200">
-            ✅ اشتراک شما: <strong>OmniForge Pro — رایگان همیشگی و بدون تبلیغات (All 1,060+ Tools Unlocked)</strong>
+          <h3 className="font-bold text-sm flex items-center gap-2"><Settings2 className="w-4 h-4 text-amber-400" /> حساب کاربری و وضعیت مجوز</h3>
+          <div className="rounded-xl border border-amber-500/30 bg-black/40 p-3 text-slate-200 font-mono">
+            BUILD 3.0.0 / ANVIL · {CATEGORIES.length} CATEGORIES · {ALL_TOOLS.length} TOOLS
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <label>نام کاربر<input className="omni-input mt-1" value={settings.userName} onChange={(e) => onUpdateSettings({ userName: e.target.value })} /></label>

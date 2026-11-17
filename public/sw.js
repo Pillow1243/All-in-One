@@ -1,4 +1,4 @@
-const CACHE_NAME = 'omniforge-pro-v2';
+const CACHE_NAME = 'omniforge-pro-v3-anvil';
 const CORE_ASSETS = ['./', './index.html', './manifest.json', './favicon.png', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png'];
 
 self.addEventListener('install', (event) => {

@@ -116,7 +116,7 @@ export const SmartToolsEngine: React.FC<EngineProps> = ({ tool, onToast, setting
   const [jsonInput, setJsonInput] = useState('[\n  { "name": "علی", "age": 31, "city": "تهران" },\n  { "name": "Sara", "age": 27, "city": "Shiraz" }\n]');
   const [csvOutput, setCsvOutput] = useState('');
   const [jsonLeft, setJsonLeft] = useState('{ "name": "OmniForge", "version": "1.0.0", "tools": 995 }');
-  const [jsonRight, setJsonRight] = useState('{ "name": "OmniForge Pro", "version": "2.0.0", "tools": 1020 }');
+  const [jsonRight, setJsonRight] = useState('{ "name": "OmniForge Pro", "version": "3.0.0", "tools": 1072 }');
 
   // cron
   const [cronExpr, setCronExpr] = useState('*/15 9-18 * * 1-5');
@@ -177,9 +177,9 @@ export const SmartToolsEngine: React.FC<EngineProps> = ({ tool, onToast, setting
   const [imageMeta, setImageMeta] = useState('');
 
   // csv viewer
-  const [csvText, setCsvText] = useState('name,role,tools\nOmniForge,Super-App,1020\nPersian,RTL,true');
+  const [csvText, setCsvText] = useState('name,release,version,tools\nOmniForge,ANVIL,3.0.0,1072\nInterface,Industrial,Yellow-black,32');
   // markdown
-  const [markdownText, setMarkdownText] = useState('## OmniForge Pro\n\n- ۳۱ دسته‌بندی\n- **۱۰۲۰+** ابزار واقعی\n- کاملاً آفلاین\n\n> ساخته‌شده برای کاربران فارسی‌زبان');
+  const [markdownText, setMarkdownText] = useState('## OmniForge Pro · ANVIL\n\n- ۳۲ دسته‌بندی\n- **۱۰۷۲** ابزار\n- کارگاه صنعتی با ۱۲ ماژول محاسباتی\n\n> رابط صنعتی زرد و مشکی');
   // lorem
   const [loremParas, setLoremParas] = useState(2);
   const [loremSentences, setLoremSentences] = useState(3);

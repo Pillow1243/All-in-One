@@ -14,8 +14,8 @@ permissions:
   contents: write
 
 env:
-  APP_VERSION: 2.0.0
-  VERSION_CODE: 2
+  APP_VERSION: 3.0.0
+  VERSION_CODE: 3
 
 jobs:
   build-android-apk:
@@ -65,6 +65,7 @@ jobs:
           test -f android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
           grep -q '<string name="app_name">OmniForge Pro</string>' android/app/src/main/res/values/strings.xml
           grep -q "versionName \"$APP_VERSION\"" android/app/build.gradle
+          grep -q "versionCode $VERSION_CODE" android/app/build.gradle
           echo "Launcher label: $(grep -o '<string name=\"app_name\">[^<]*' android/app/src/main/res/values/strings.xml)"
 
       - name: Prepare Release Keystore
@@ -117,41 +118,40 @@ jobs:
       - name: Upload APK Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OmniForge-Pro-v2.0.0-APK
+          name: OmniForge-Pro-v3.0.0-APK
           path: |
-            release-artifacts/OmniForge-Pro-v2.0.0.apk
+            release-artifacts/OmniForge-Pro-v3.0.0.apk
             release-artifacts/SHA256SUMS.txt
           retention-days: 90
 
-      - name: Publish Installable APK to GitHub Release (v2.0.0)
+      - name: Publish Installable APK to GitHub Release (v3.0.0)
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="v${APP_VERSION}"
-          TITLE="OmniForge Pro v${APP_VERSION} — Forge Release (Android APK)"
+          TITLE="OmniForge Pro v${APP_VERSION} — ANVIL Industrial Update (Android APK)"
           cat > "$RUNNER_TEMP/release-notes.md" <<'EOF'
-          ## 🚀 OmniForge Pro v2.0.0 — «Forge»
+          ## OmniForge Pro v3.0.0 — ANVIL
 
-          سوپراپلیکیشن **۱۰۰٪ رایگان** اندروید: **۳۱ دسته‌بندی** و **۱٬۰۶۰+ ابزار واقعی و آفلاین**، حالا با رابط کاربری بازطراحی‌شده، جستجوی همه‌جا و ۲۴ ابزار هوشمند تازه.
+          انتشار ساخت صنعتی OmniForge Pro: ۳۲ دسته‌بندی و بیش از ۱٬۰۷۰ ابزار برای فایل، محاسبات، توسعه، تشخیص و گردش‌کارهای روزانه.
 
-          ### 📥 نصب روی اندروید
-          1. فایل **`OmniForge-Pro-v2.0.0.apk`** را از بخش Assets دانلود کنید.
-          2. روی گوشی (Android 5.1 تا 15+) نصب کنید.
-          3. APK با `zipalign` بهینه و با `apksigner` (v1/v2/v3) امضا شده است.
+          ### فایل نصب
+          - `OmniForge-Pro-v3.0.0.apk` — Android 5.1+
+          - APK با `zipalign` و `apksigner` ساخته و اعتبارسنجی شده است.
+          - نسخه برنامه: `3.0.0` · Android versionCode: `3`
 
-          ### ✨ در این نسخه
-          - **دسته ۳۱ تازه — Smart Utilities 2.0:** عدد به حروف فارسی، اسلاگ فارسی، JSON↔CSV و مقایسه ساختاری، توضیح‌گر Cron، UUID/ULID/NanoID، تاریخ جلالی و تایم‌استمپ، کارت/شبا/کد ملی، قیمت واحد، سن دقیق، درصد و تخفیف، آزمایشگاه رنگ با کنتراست WCAG، سازنده QR (وای‌فای/ویزیت/پیامک)، Base64، نمایشگر CSV، پیش‌نمایش Markdown، متن نمونه فارسی، قرعه‌کشی و تقسیم صورتحساب.
-          - **پالت فرمان (Ctrl/⌘ + K)** با جستجوی فازی و کنترل کامل با کیبورد.
-          - **رابط کاربری تازه:** سیستم طراحی ۲.۰، حالت روشن/تاریک/OLED دقیق‌تر، انیمیشن‌های ملایم، احترام به «کاهش حرکت»، ناحیه امن دستگاه.
-          - **لینک مستقیم هر ابزار** (`#/tool/…`) و اشتراک‌گذاری با Share Sheet اندروید.
-          - **آیکون و هویت بصری جدید** (حلقه آهنگری) با هندسه برداری در همه تراکم‌ها و اسپلش تازه.
-          - **نام ثبت‌شده روی گوشی:** `OmniForge Pro` (انگلیسی).
-          - بهینه‌سازی بارگذاری موتورها، کش آفلاین PWA و پایداری تست‌ها.
+          ### تغییرات اصلی
+          - پوسته صنعتی زرد و مشکی با پنل‌های فنی، برچسب‌های ماژول و خروجی‌های monospace.
+          - **کارگاه صنعتی، ۱۲ ماژول:** تبدیل واحدهای صنعتی، جرم قطعه، دور و پیشروی CNC، گشتاور پیچ، نیروی سیلندر هیدرولیک/پنوماتیک، انتقال دنده، قانون اهم، ظرفیت لوله، مصرف جوش، تلرانس RSS و برنامه سرویس.
+          - آیکون تازه مهره شش‌ضلعی و اسپلش هم‌راستا برای Android، وب و PWA.
+          - نوار وضعیت و نوار پیمایش Android با رنگ زرد و نمادهای تیره.
+          - حفظ جستجوی سراسری، مسیر مستقیم ابزارها، پشتیبانی آفلاین و نام انگلیسی دستگاه `OmniForge Pro`.
 
-          ### 🧪 کیفیت
-          - `npx vitest run` — ۲۶ تست خودکار (کاتالوگ، رمزنگاری، NLP فارسی، ۲۴ ابزار هوشمند و رندر واقعی رابط کاربری)
-          - بیلد تولیدی TypeScript + Vite بدون خطا
+          ### اعتبارسنجی
+          - تست‌های Vitest برای کاتالوگ، ابزارهای هوشمند و محاسبات کارگاهی.
+          - بیلد TypeScript + Vite و ساخت Android Release.
+          - `SHA256SUMS.txt` همراه APK منتشر شده است.
           EOF
 
           if gh release view "$TAG" >/dev/null 2>&1; then

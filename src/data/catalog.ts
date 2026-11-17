@@ -32,9 +32,25 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'nature', number: 29, nameFa: 'کشاورزی و طبیعت', nameEn: 'Nature & AgriTech', descriptionFa: 'شناسایی و مراقبت گیاهان، رطوبت خاک زنده، موقعیت خورشید و ماه، نقشه ستارگان و باغبانی', descriptionEn: 'Plant Care, Live Soil Moisture, Sun/Moon Calc, Star Map & Garden', icon: 'Sprout', gradient: 'from-lime-500 to-green-600', accentHex: '#84cc16', toolCountTarget: 10 },
   { id: 'platform', number: 30, nameFa: 'زیرساخت پلتفرم و APIها', nameEn: 'Platform OS & APIs', descriptionFa: 'پلاگین و مارکت‌پلیس، کاوشگر ۱۷۸+ API رایگان، ۵۰+ زبان، آمار، آپدیت گیت‌هاب و تنظیمات پیشرفته', descriptionEn: 'Plugins, 178+ Public APIs Explorer, 50+ Languages, Analytics & Updates', icon: 'Settings2', gradient: 'from-slate-500 to-cyan-600', accentHex: '#06b6d4', toolCountTarget: 30 },
   { id: 'smart', number: 31, nameFa: 'ابزارهای هوشمند ۲.۰', nameEn: 'Smart Utilities 2.0', descriptionFa: 'عدد به حروف فارسی، اسلاگ، JSON↔CSV و دیف، Cron، UUID/ULID، تاریخ جلالی، کارت/شبا/کد ملی، قیمت واحد، کنتراست WCAG و QR', descriptionEn: 'Persian Number Words, Slug, JSON↔CSV/Diff, Cron, UUID/ULID, Jalali, Card/Sheba/National-ID, Unit Price, WCAG Contrast & QR', icon: 'Wand2', gradient: 'from-emerald-400 via-cyan-500 to-indigo-600', accentHex: '#14b8a6', toolCountTarget: 24 },
+  { id: 'workshop', number: 32, nameFa: 'کارگاه صنعتی', nameEn: 'Industrial Workshop', descriptionFa: 'ماشین‌کاری، پیچ‌ومهره، هیدرولیک، انتقال قدرت، برق صنعتی، جوشکاری و کنترل ابعادی', descriptionEn: 'Machining, fasteners, hydraulics, power transmission, electrical, welding & metrology', icon: 'Wrench', gradient: 'from-amber-300 to-yellow-500', accentHex: '#FFD400', toolCountTarget: 12 },
 ];
 
 type RawToolDef = [id: string, nameFa: string, nameEn: string, mode: string, badge?: ToolItem['badge']];
+
+const WORKSHOP_DESCRIPTIONS: Record<string, string> = {
+  unit: 'تبدیل ابعاد، گشتاور، فشار، جرم، توان، حجم و دما بین واحدهای SI و امپریال',
+  material: 'برآورد جرم ورق مستطیلی بر اساس جنس، چگالی و ابعاد واردشده',
+  cutting: 'محاسبه دور اسپیندل و پیشروی از سرعت برشی، قطر ابزار و بار براده',
+  bolt: 'برآورد گشتاور بستن و پیش‌بار پیچ بر اساس سایز، کلاس و روان‌کاری',
+  hydraulic: 'محاسبه نیروی رفت و برگشت سیلندر از فشار، قطر پیستون و میله',
+  gear: 'محاسبه نسبت تبدیل، دور خروجی و گشتاور با احتساب راندمان',
+  ohms: 'حل قانون اهم برای ولتاژ، جریان، مقاومت یا توان در مدار DC',
+  pipe: 'محاسبه قطر داخلی و ظرفیت سیال لوله با توجه به ضخامت و طول',
+  weld: 'برآورد وزن فلز جوش و سیم موردنیاز برای جوش گوشه',
+  tolerance: 'محاسبه تلرانس تجمعی بدترین‌حالت و روش آماری RSS',
+  maintenance: 'محاسبه تاریخ سرویس بعدی و روزهای باقی‌مانده از دوره نگهداری',
+  pneumatic: 'محاسبه نیروی رفت و برگشت جک پنوماتیک از فشار و سطح مؤثر',
+};
 
 function buildCategoryTools(categoryId: string, defs: RawToolDef[]): ToolItem[] {
   return defs.map(([id, nameFa, nameEn, mode, badge]) => ({
@@ -42,7 +58,7 @@ function buildCategoryTools(categoryId: string, defs: RawToolDef[]): ToolItem[] 
     categoryId,
     nameFa,
     nameEn,
-    descriptionFa: `ابزار کامل و عملیاتی ${nameFa} (${nameEn})`,
+    descriptionFa: categoryId === 'workshop' ? WORKSHOP_DESCRIPTIONS[mode] : `ابزار کامل و عملیاتی ${nameFa} (${nameEn})`,
     mode,
     tags: [nameFa.toLowerCase(), nameEn.toLowerCase(), categoryId, mode],
     badge,
@@ -1178,9 +1194,9 @@ export const ALL_TOOLS: ToolItem[] = [
     ['login', 'ورود ایمن محلی (ایمیل/موبایل/مهمان)', 'Auth & Session Manager', 'account'],
     ['sync', 'وضعیت همگام‌سازی پلتفرم', 'Platform Sync Hub', 'sync'],
     ['cloud-backup', 'پشتیبان‌گیری ابری و فایل', 'Cloud Backup Center', 'sync'],
-    ['subscription', 'وضعیت اشتراک (۱۰۰٪ رایگان همیشگی)', 'Free Forever License', 'account'],
-    ['iap', 'تمام امکانات پرو رایگان و باز', 'All Pro Features Unlocked', 'account'],
-    ['ads', 'حالت کاملاً بدون تبلیغات (Ad-Free)', 'Zero-Ads Guarantee', 'account'],
+    ['subscription', 'وضعیت مجوز و امکانات', 'License & Feature Status', 'account'],
+    ['iap', 'فهرست قابلیت‌های نسخه', 'Feature Availability Index', 'account'],
+    ['ads', 'وضعیت ماژول تبلیغات', 'Advertising Module Status', 'account'],
     ['analytics', 'آمار و نمودار ابزارهای پرکاربرد شما', 'Local Usage Analytics', 'analytics', 'PRO'],
     ['crash-log', 'گزارش خطاها و لاگ سیستم', 'Crash & Event Log Viewer', 'analytics'],
     ['notifications', 'مرکز اعلان‌ها و یادآورهای اپ', 'Push & Local Notifications', 'system'],
@@ -1231,6 +1247,21 @@ export const ALL_TOOLS: ToolItem[] = [
     ['b64', 'کدگذاری Base64 متن', 'Text Base64 Encode/Decode', 'b64', 'OFFLINE'],
     ['nanoid', 'شناسه کوتاه و رمز یکبارمصرف', 'Short ID & Token Generator', 'ids', 'OFFLINE'],
     ['wcag', 'بررسی دسترسی‌پذیری رنگ‌ها', 'Accessible Color Picker', 'color', 'OFFLINE'],
+  ]),
+  // 32. Industrial Workshop — engineering calculators & shop-floor utilities
+  ...buildCategoryTools('workshop', [
+    ['unit', 'مبدل واحدهای صنعتی', 'Industrial Unit Converter', 'unit', 'OFFLINE'],
+    ['material', 'محاسبه وزن ورق و قطعه', 'Material Mass Calculator', 'material', 'OFFLINE'],
+    ['cutting', 'محاسبه دور و پیشروی CNC', 'CNC Speed & Feed Calculator', 'cutting', 'OFFLINE'],
+    ['bolt', 'گشتاور پیچ و مهره', 'Fastener Torque Estimator', 'bolt', 'OFFLINE'],
+    ['hydraulic', 'نیروی جک هیدرولیک', 'Hydraulic Cylinder Force', 'hydraulic', 'OFFLINE'],
+    ['gear', 'نسبت دنده و گشتاور خروجی', 'Gear Ratio & Output Torque', 'gear', 'OFFLINE'],
+    ['ohms', 'قانون اهم و توان DC', 'Ohm’s Law & DC Power', 'ohms', 'OFFLINE'],
+    ['pipe', 'ظرفیت و قطر داخلی لوله', 'Pipe Capacity Calculator', 'pipe', 'OFFLINE'],
+    ['weld', 'برآورد مصرف سیم جوش', 'Weld Consumables Estimate', 'weld', 'OFFLINE'],
+    ['tolerance', 'تلرانس تجمعی ابعادی', 'Tolerance Stack-up (RSS)', 'tolerance', 'OFFLINE'],
+    ['maintenance', 'برنامه‌ریز سرویس دوره‌ای', 'Preventive Maintenance Planner', 'maintenance', 'OFFLINE'],
+    ['pneumatic', 'نیروی جک پنوماتیک', 'Pneumatic Cylinder Force', 'pneumatic', 'OFFLINE'],
   ]),
 
 ];

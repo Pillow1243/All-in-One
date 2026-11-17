@@ -1,11 +1,11 @@
 {
   "name": "OmniForge Pro",
   "short_name": "OmniForge",
-  "description": "31 categories and 1,020+ offline tools — PDF, media, developer, security, finance, health, games and Persian smart utilities. Free and ad-free.",
+  "description": "OmniForge Pro ANVIL — 32 tool categories and 1,070+ utilities, including an industrial engineering workshop.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#070b18",
-  "theme_color": "#070b18",
+  "background_color": "#0A0A0A",
+  "theme_color": "#FFD400",
   "orientation": "portrait-primary",
   "icons": [
     {

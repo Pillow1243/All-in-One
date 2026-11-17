@@ -5,8 +5,8 @@ const PREFIX = 'omniforge_v1_';
 export const DEFAULT_SETTINGS: AppSettings = {
   language: 'fa',
   theme: 'dark',
-  accentPrimary: '#06b6d4',
-  accentSecondary: '#8b5cf6',
+  accentPrimary: '#FFD400',
+  accentSecondary: '#AD8F00',
   fontScale: 1,
   highContrast: false,
   colorBlindMode: 'none',
@@ -46,7 +46,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     {
       id: 'plugin-bmi-pro',
       name: 'پلاگین محاسبه سریع BMI و آب بدن',
-      version: '2.0.0',
+      version: '3.0.0',
       author: 'OmniForge Community',
       description: 'محاسبه آنی شاخص توده بدنی و نیاز روزانه به آب',
       enabled: true,
@@ -84,7 +84,15 @@ export function saveData<T>(key: string, value: T): void {
 
 export function loadSettings(): AppSettings {
   const saved = loadData<Partial<AppSettings>>('settings', {});
-  return { ...DEFAULT_SETTINGS, ...saved };
+  const isLegacyDefaultPalette = saved.accentPrimary === '#06b6d4' && saved.accentSecondary === '#8b5cf6';
+  return {
+    ...DEFAULT_SETTINGS,
+    ...saved,
+    ...(isLegacyDefaultPalette ? {
+      accentPrimary: DEFAULT_SETTINGS.accentPrimary,
+      accentSecondary: DEFAULT_SETTINGS.accentSecondary,
+    } : {}),
+  };
 }
 
 export function saveSettings(settings: AppSettings): void {
