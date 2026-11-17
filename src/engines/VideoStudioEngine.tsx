@@ -24,7 +24,7 @@ export const VideoStudioEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   const [recordedUrl, setRecordedUrl] = useState('');
 
   // Teleprompter
-  const [promptScript, setPromptScript] = useState('سلام دوستان عزیز!\nامروز می‌خواهیم با اپلیکیشن قدرتمند همه‌کاره پرو آشنا شویم.\nاین اپلیکیشن دارای ۳۰ دسته‌بندی و نزدیک به ۱۰۰۰ ابزار کاربردی کاملاً رایگان است.\nبا استفاده از تله‌پرامپتر می‌توانید متن خود را روان و حرفه‌ای جلوی دوربین بخوانید...');
+  const [promptScript, setPromptScript] = useState('سلام دوستان عزیز!\nامروز می‌خواهیم با اپلیکیشن قدرتمند همه‌کاره پرو آشنا شویم.\nاین اپلیکیشن دارای ۳۱ دسته‌بندی و بیش از ۱۰۶۰ ابزار کاربردی کاملاً رایگان است.\nبا استفاده از تله‌پرامپتر می‌توانید متن خود را روان و حرفه‌ای جلوی دوربین بخوانید...');
   const [promptScrolling, setPromptScrolling] = useState(false);
   const [promptMirror, setPromptMirror] = useState(false);
   const [promptSpeed, setPromptSpeed] = useState(2);

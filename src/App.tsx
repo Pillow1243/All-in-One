@@ -269,7 +269,7 @@ export const App: React.FC = () => {
       <ColorBlindFilters />
 
       {/* ── Header ─────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+      <header className="app-header sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 py-2.5 sm:px-6">
           <button onClick={() => navigate('#/home')} className="flex shrink-0 items-center gap-2.5" aria-label={APP_NAME}>
             <img src="./icons/icon-192.png" alt={APP_NAME} className="h-9 w-9 rounded-xl shadow-lg shadow-cyan-500/20" />
@@ -737,7 +737,7 @@ export const App: React.FC = () => {
       )}
 
       {/* ── Bottom navigation ───────────────────────────────────── */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-950/85 px-2 py-1.5 backdrop-blur-xl safe-pb">
+      <nav className="app-nav fixed inset-x-0 bottom-0 z-40 border-t border-white/10 px-2 py-1.5 backdrop-blur-xl safe-pb">
         <div className="mx-auto grid max-w-xl grid-cols-5 items-center gap-1">
           <NavButton id="home" icon={Home} label={isRtl ? 'خانه' : 'Home'} action={() => navigate('#/home')} />
           <NavButton id="categories" icon={Grid2X2} label={isRtl ? 'دسته‌ها' : 'Browse'} action={() => navigate('#/categories')} />
