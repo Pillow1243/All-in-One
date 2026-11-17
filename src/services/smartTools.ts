@@ -241,7 +241,8 @@ function randomBytes(length: number): Uint8Array {
   return bytes;
 }
 
-const NANO_ALPHABET = 'useandom26T198340PX75pxJACKVERYMINDBUSHWOLFGQZbfghjklqvwyzrict';
+// 64 unambiguous URL-safe characters (nanoid default alphabet).
+const NANO_ALPHABET = 'useandom26T198340PX75pxJACKVERYMINDBUSHWOLFGQZbfghjklqvwyzrict'.slice(0, 64);
 
 export function generateId(kind: 'uuid' | 'ulid' | 'nano', length = 21): string {
   const bytes = randomBytes(32);
@@ -262,7 +263,8 @@ export function generateId(kind: 'uuid' | 'ulid' | 'nano', length = 21): string 
     return `${stamp}${random}`;
   }
   const size = Math.min(64, Math.max(4, length));
-  return Array.from({ length: size }, (_, i) => NANO_ALPHABET[bytes[i % bytes.length] % 64]).join('');
+  const alphabet = NANO_ALPHABET.length;
+  return Array.from({ length: size }, (_, i) => NANO_ALPHABET[bytes[i % bytes.length] % alphabet]).join('');
 }
 
 /** Gregorian → Jalali (Khayyam algorithm, valid 1600–2500). */
