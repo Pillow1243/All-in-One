@@ -32,12 +32,13 @@ beforeAll(() => {
 afterEach(() => cleanup());
 
 describe('App shell', () => {
-  it('renders the 2.0 dashboard with all categories and the Smart Utilities entry', async () => {
+  it('renders the ANVIL dashboard with the industrial workshop category', async () => {
     const { App } = await import('../App');
     render(<App />);
 
     expect(screen.getAllByText(/OmniForge/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/ابزارهای هوشمند ۲.۰/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/ANVIL/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/کارگاه صنعتی/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/دسته‌بندی/).length).toBeGreaterThan(0);
   });
 
@@ -45,9 +46,7 @@ describe('App shell', () => {
     const { App } = await import('../App');
     render(<App />);
 
-    const searchButton = screen.getAllByRole('button').find((button) =>
-      (button.textContent || '').includes('جستجوی سریع'),
-    );
+    const searchButton = screen.getByRole('button', { name: 'جستجو' });
     expect(searchButton).toBeTruthy();
 
     await act(async () => {

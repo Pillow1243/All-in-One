@@ -1,7 +1,7 @@
 {
   "name": "omniforge-all-in-one",
-  "version": "2.0.0",
-  "description": "OmniForge Pro — offline-first Android super-toolbox: 31 categories, 1,020+ working tools, Persian-first smart utilities",
+  "version": "3.0.0",
+  "description": "OmniForge Pro ANVIL — industrial Android toolbox with 32 categories and 1,070+ tools",
   "private": true,
   "type": "module",
   "scripts": {

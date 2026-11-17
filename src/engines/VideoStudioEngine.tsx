@@ -15,7 +15,7 @@ export const VideoStudioEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   const [chromaEnabled, setChromaEnabled] = useState(false);
   const [chromaSensitivity, setChromaSensitivity] = useState(65);
   const [subtitleText, setSubtitleText] = useState('ساخته شده با استودیو ویدیوی همه‌کاره پرو');
-  const [srtContent, setSrtContent] = useState('1\n00:00:00,000 --> 00:00:04,000\nخوش آمدید به ویدیو استودیو OmniForge Pro\n\n2\n00:00:04,500 --> 00:00:09,000\nپشتیبانی از پرده سبز، تله‌پرامپتر و زیرنویس هوشمند');
+  const [srtContent, setSrtContent] = useState('1\n00:00:00,000 --> 00:00:04,000\nOmniForge Pro Video Studio · Build 3.0\n\n2\n00:00:04,500 --> 00:00:09,000\nTimeline, chroma key, teleprompter and subtitle tools');
 
   // Screen / Webcam Recording
   const [recording, setRecording] = useState(false);
@@ -24,7 +24,7 @@ export const VideoStudioEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   const [recordedUrl, setRecordedUrl] = useState('');
 
   // Teleprompter
-  const [promptScript, setPromptScript] = useState('سلام دوستان عزیز!\nامروز می‌خواهیم با اپلیکیشن قدرتمند همه‌کاره پرو آشنا شویم.\nاین اپلیکیشن دارای ۳۱ دسته‌بندی و بیش از ۱۰۶۰ ابزار کاربردی کاملاً رایگان است.\nبا استفاده از تله‌پرامپتر می‌توانید متن خود را روان و حرفه‌ای جلوی دوربین بخوانید...');
+  const [promptScript, setPromptScript] = useState('معرفی سامانه OmniForge Pro نسخه ۳.۰\nاین مجموعه شامل ۳۲ دسته‌بندی و بیش از ۱۰۷۰ ابزار پردازشی و محاسباتی است.\nماژول کارگاه صنعتی، محاسبات ماشین‌کاری، بست‌ها، انتقال قدرت و کنترل ابعادی را پوشش می‌دهد.\nابزارهای محلی بدون ارسال ورودی به سرور اجرا می‌شوند.');
   const [promptScrolling, setPromptScrolling] = useState(false);
   const [promptMirror, setPromptMirror] = useState(false);
   const [promptSpeed, setPromptSpeed] = useState(2);

@@ -9,7 +9,7 @@ export const DeveloperEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   const [tab, setTab] = useState<DevTab>((tool.mode as DevTab) || 'format');
 
   // JSON / Code Formatter
-  const [codeIn, setCodeIn] = useState('{"app":"OmniForge Pro","version":"2.0.0","free":true,"categories":31,"tools":1060}');
+  const [codeIn, setCodeIn] = useState('{"app":"OmniForge Pro","version":"3.0.0","release":"ANVIL","categories":32,"tools":1072}');
   const [codeOut, setCodeOut] = useState('');
 
   // JWT Decoder
@@ -20,7 +20,7 @@ export const DeveloperEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   // Regex Tester
   const [regexPat, setRegexPat] = useState('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}');
   const [regexFlags, setRegexFlags] = useState('gi');
-  const [regexSample, setRegexSample] = useState('Contact us at dev@omniforge.app or support@github.com for free tools!');
+  const [regexSample, setRegexSample] = useState('Contact dev@omniforge.app or support@github.com for technical support.');
 
   // Postman-Like HTTP API Client
   const [httpMethod, setHttpMethod] = useState('GET');

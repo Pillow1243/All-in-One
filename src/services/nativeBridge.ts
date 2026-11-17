@@ -168,7 +168,7 @@ export async function getAndroidInstalledApps() {
     } catch {}
   }
   return [
-    { name: 'OmniForge Pro', packageName: 'ir.omniforge.allinone', version: '2.0.0', permissionsCount: 14 },
+    { name: 'OmniForge Pro', packageName: 'ir.omniforge.allinone', version: '3.0.0', permissionsCount: 14 },
     { name: 'Android System WebView', packageName: 'com.google.android.webview', version: '130.0', permissionsCount: 6 },
     { name: 'Camera', packageName: 'com.android.camera2', version: '14.0', permissionsCount: 8 },
     { name: 'Settings', packageName: 'com.android.settings', version: '14.0', permissionsCount: 24 },
