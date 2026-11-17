@@ -93,7 +93,7 @@
 ```bash
 npm install
 npm run dev          # اجرای پیش‌نمایش زنده
-npm test             # اجرای تست‌های خودکار Vitest
+npm test             # اجرای ۲۶ تست خودکار Vitest (شامل رندر DOM رابط کاربری)
 npm run build        # بیلد تولیدی TypeScript + Vite
 npm run assets       # بازتولید همه آیکون‌ها/اسپلش‌ها از assets/icon.svg
 npx cap sync android # همگام‌سازی پروژه نیتیو اندروید (Capacitor 6)
