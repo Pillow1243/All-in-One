@@ -1,14 +1,15 @@
 <div align="center">
   <img src="assets/app-icon-fullbleed.png" alt="OmniForge Pro Icon" width="128" height="128" />
   <h1>همه‌کاره پرو — OmniForge Pro</h1>
-  <p><strong>سوپراپلیکیشن جامع اندرویدی با ۳۰ دسته‌بندی و بیش از ۹۹۵ ابزار واقعی — ۱۰۰٪ رایگان همیشگی، بدون تبلیغات و متن‌باز</strong></p>
+  <p><strong>سوپراپلیکیشن جامع اندرویدی با ۳۱ دسته‌بندی و بیش از ۱٬۰۶۰ ابزار واقعی — ۱۰۰٪ رایگان همیشگی، بدون تبلیغات و متن‌باز</strong></p>
   <p><em>All-in-One Android Super-Toolbox · 30 Categories · 995+ Real Working Tools · RTL Persian + Multi-Language · Offline + Zero-Auth Public APIs</em></p>
 
   <p>
     <a href="https://github.com/Pillow1243/All-in-One/releases/latest">
-      <img src="https://img.shields.io/badge/Download-Android%20APK%20(v1.0.0)-06b6d4?style=for-the-badge&logo=android&logoColor=white" alt="Download Android APK" />
+      <img src="https://img.shields.io/badge/Download-Android%20APK%20(v2.0.0)-06b6d4?style=for-the-badge&logo=android&logoColor=white" alt="Download Android APK" />
     </a>
-    <img src="https://img.shields.io/badge/Tools-995%2B%20Active-8b5cf6?style=for-the-badge" alt="995+ Tools" />
+    <img src="https://img.shields.io/badge/Tools-1%2C060%20Active-8b5cf6?style=for-the-badge" alt="1,060 Tools" />
+    <img src="https://img.shields.io/badge/Categories-31-14b8a6?style=for-the-badge" alt="31 Categories" />
     <img src="https://img.shields.io/badge/Free-100%25%20No%20Ads-10b981?style=for-the-badge" alt="100% Free" />
   </p>
 </div>
@@ -17,14 +18,28 @@
 
 ## 📥 دانلود نسخه اندروید (Android APK)
 
-فایل نصبی امضاشده اندروید (**`OmniForge-Pro-v1.0.0.apk`**) به صورت خودکار توسط GitHub Actions ساخته، Zipalign و امضا شده و در بخش **[GitHub Releases](https://github.com/Pillow1243/All-in-One/releases/latest)** در دسترس است.
+فایل نصبی امضاشده اندروید (**`OmniForge-Pro-v2.0.0.apk`**) به صورت خودکار توسط GitHub Actions ساخته، Zipalign و امضا شده و در بخش **[GitHub Releases](https://github.com/Pillow1243/All-in-One/releases/latest)** در دسترس است.
 
 1. وارد صفحه **[Releases](https://github.com/Pillow1243/All-in-One/releases/latest)** شوید.
-2. فایل **`OmniForge-Pro-v1.0.0.apk`** را دانلود و روی گوشی اندروید خود (اندروید ۵.۱ تا ۱۵+) نصب کنید.
+2. فایل **`OmniForge-Pro-v2.0.0.apk`** را دانلود و روی گوشی اندروید خود (اندروید ۵.۱ تا ۱۵+) نصب کنید.
 
 ---
 
-## ✨ ۳۰ دسته‌بندی و ۹۹۵+ ابزار واقعی پیاده‌سازی‌شده
+## 🆕 تازه در نسخه ۲.۰ «Forge»
+
+| قابلیت | توضیح |
+|:---|:---|
+| **دسته ۳۱: Smart Utilities 2.0** | ۲۴ ابزار کامل: عدد به حروف فارسی، اسلاگ فارسی، JSON↔CSV و مقایسه ساختاری، توضیح‌گر Cron، UUID/ULID/NanoID، تاریخ جلالی و تایم‌استمپ، اعتبارسنجی کارت/شبا/کد ملی، مقایسه قیمت واحد، سن دقیق، درصد و تخفیف، آزمایشگاه رنگ با کنتراست WCAG، سازنده QR (وای‌فای/کارت ویزیت/پیامک)، Base64، نمایشگر CSV، پیش‌نمایش Markdown، متن نمونه فارسی، قرعه‌کشی seed-دار و تقسیم صورتحساب |
+| **پالت فرمان** | `Ctrl/⌘ + K` یا `/` — جستجوی فازی در ۱٬۰۶۰ ابزار با کنترل کامل کیبورد |
+| **رابط کاربری ۲.۰** | سیستم طراحی تازه، شیشه واقعی، انیمیشن ملایم، پشتیبانی از «کاهش حرکت»، حالت روشن/تاریک/OLED |
+| **لینک مستقیم و اشتراک** | هر ابزار آدرس اختصاصی دارد (`#/tool/…`) و با Share Sheet اندروید ارسال می‌شود |
+| **هویت بصری تازه** | آیکون برداری «حلقه آهنگری» در همه تراکم‌ها، اسپلش و آیکون‌های PWA + نام ثبت‌شده **OmniForge Pro** روی گوشی |
+
+> آیکون‌ها و اسپلش‌ها از یک منبع واحد تولید می‌شوند: `assets/icon.svg` → `npm run assets`.
+
+---
+
+## ✨ ۳۱ دسته‌بندی و ۱٬۰۶۰+ ابزار واقعی پیاده‌سازی‌شده
 
 | # | دسته‌بندی (فارسی) | Category (English) | موتورها و قابلیت‌های کلیدی |
 |:-:|:---|:---|:---|
@@ -58,6 +73,7 @@
 | ۲۸ | **خودرو و رانندگی** | Automotive (10) | دیتابیس کدهای خطای دیاگ OBD-II، سرعت‌سنج HUD آینه‌ای، یادآور GPS پارکینگ، داش‌کم، سرویس دوره‌ای، رمزگشای زنده NHTSA VIN |
 | ۲۹ | **کشاورزی و طبیعت** | Nature & AgriTech (10) | رطوبت خاک و تبخیر زنده Open-Meteo، محاسبه دقیق فاز ماه و خورشید، نقشه ستارگان آسمان شب، راهنمای گیاهان |
 | ۳۰ | **پلتفرم و APIهای عمومی** | Platform OS & APIs (30) | کاوشگر زنده ۱۷۸+ API رایگان از `public-apis/public-apis`، سیستم پلاگین سفارشی، تغییر زبان و RTL/LTR، آمار و بررسی آپدیت گیت‌هاب |
+| ۳۱ | **ابزارهای هوشمند ۲.۰** | Smart Utilities 2.0 (24) | عدد به حروف فارسی، اسلاگ فارسی، JSON↔CSV و دیف، Cron، UUID/ULID، تاریخ جلالی، کارت/شبا/کد ملی، قیمت واحد، سن دقیق، درصد، کنتراست WCAG، QR، Base64، CSV، Markdown، Lorem فارسی، قرعه‌کشی |
 
 ---
 
@@ -79,6 +95,7 @@ npm install
 npm run dev          # اجرای پیش‌نمایش زنده
 npm test             # اجرای تست‌های خودکار Vitest
 npm run build        # بیلد تولیدی TypeScript + Vite
+npm run assets       # بازتولید همه آیکون‌ها/اسپلش‌ها از assets/icon.svg
 npx cap sync android # همگام‌سازی پروژه نیتیو اندروید (Capacitor 6)
 cd android && ./gradlew assembleRelease
 ```

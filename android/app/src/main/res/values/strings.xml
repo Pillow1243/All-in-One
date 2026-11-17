@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">همه‌کاره پرو</string>
-    <string name="title_activity_main">همه‌کاره پرو — OmniForge Pro</string>
+    <string name="app_name">OmniForge Pro</string>
+    <string name="title_activity_main">OmniForge Pro</string>
     <string name="package_name">ir.omniforge.allinone</string>
     <string name="custom_url_scheme">omniforge</string>
 </resources>

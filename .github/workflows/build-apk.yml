@@ -13,6 +13,10 @@ on:
 permissions:
   contents: write
 
+env:
+  APP_VERSION: 2.0.0
+  VERSION_CODE: 2
+
 jobs:
   build-android-apk:
     runs-on: ubuntu-latest
@@ -55,6 +59,14 @@ jobs:
           npm run build
           npx cap sync android
 
+      - name: Verify Brand Assets & App Identity
+        run: |
+          test -f android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          test -f android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+          grep -q '<string name="app_name">OmniForge Pro</string>' android/app/src/main/res/values/strings.xml
+          grep -q "versionName \"$APP_VERSION\"" android/app/build.gradle
+          echo "Launcher label: $(grep -o '<string name=\"app_name\">[^<]*' android/app/src/main/res/values/strings.xml)"
+
       - name: Prepare Release Keystore
         run: |
           KEYSTORE_PATH="$RUNNER_TEMP/omniforge-release.jks"
@@ -85,7 +97,7 @@ jobs:
           BUILD_TOOLS_DIR=$(ls -d "$ANDROID_HOME/build-tools/"* | sort -V | tail -n 1)
           RAW_APK="android/app/build/outputs/apk/release/app-release.apk"
           mkdir -p release-artifacts
-          OUT_APK="release-artifacts/OmniForge-Pro-v1.0.0.apk"
+          OUT_APK="release-artifacts/OmniForge-Pro-v${APP_VERSION}.apk"
 
           "$BUILD_TOOLS_DIR/zipalign" -v -p 4 "$RAW_APK" "$RUNNER_TEMP/aligned.apk"
           "$BUILD_TOOLS_DIR/apksigner" sign \
@@ -97,6 +109,7 @@ jobs:
             "$RUNNER_TEMP/aligned.apk"
 
           "$BUILD_TOOLS_DIR/apksigner" verify --verbose --print-certs "$OUT_APK"
+          "$BUILD_TOOLS_DIR/aapt2" dump badging "$OUT_APK" | grep -E "package:|application-label" || true
           sha256sum "$OUT_APK" > release-artifacts/SHA256SUMS.txt
           ls -lh release-artifacts/
           cat release-artifacts/SHA256SUMS.txt
@@ -104,36 +117,46 @@ jobs:
       - name: Upload APK Workflow Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OmniForge-Pro-v1.0.0-APK
+          name: OmniForge-Pro-v2.0.0-APK
           path: |
-            release-artifacts/OmniForge-Pro-v1.0.0.apk
+            release-artifacts/OmniForge-Pro-v2.0.0.apk
             release-artifacts/SHA256SUMS.txt
           retention-days: 90
 
-      - name: Publish Installable APK to GitHub Release (v1.0.0)
+      - name: Publish Installable APK to GitHub Release (v2.0.0)
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="v1.0.0"
-          TITLE="OmniForge Pro v1.0.0 — همه‌کاره پرو (Android APK)"
+          TAG="v${APP_VERSION}"
+          TITLE="OmniForge Pro v${APP_VERSION} — Forge Release (Android APK)"
           cat > "$RUNNER_TEMP/release-notes.md" <<'EOF'
-          ## 🚀 همه‌کاره پرو — OmniForge Pro v1.0.0 (Android APK)
+          ## 🚀 OmniForge Pro v2.0.0 — «Forge»
 
-          سوپراپلیکیشن جامع و **۱۰۰٪ رایگان** اندروید با **۳۰ دسته‌بندی و بیش از ۹۹۵ ابزار واقعی و عملیاتی** (آفلاین + ۱۷۸ API عمومی بدون کلید از `public-apis/public-apis`).
+          سوپراپلیکیشن **۱۰۰٪ رایگان** اندروید: **۳۱ دسته‌بندی** و **۱٬۰۶۰+ ابزار واقعی و آفلاین**، حالا با رابط کاربری بازطراحی‌شده، جستجوی همه‌جا و ۲۴ ابزار هوشمند تازه.
 
-          ### 📥 نصب سریع روی اندروید:
-          1. فایل **`OmniForge-Pro-v1.0.0.apk`** را از بخش Assets زیر دانلود کنید.
-          2. روی گوشی اندروید (Android 5.1 تا Android 15+) اجرا و نصب نمایید.
-          3. این APK به صورت کامل `zipalign` و با `apksigner` (v1/v2/v3) امضا و تایید شده است.
+          ### 📥 نصب روی اندروید
+          1. فایل **`OmniForge-Pro-v2.0.0.apk`** را از بخش Assets دانلود کنید.
+          2. روی گوشی (Android 5.1 تا 15+) نصب کنید.
+          3. APK با `zipalign` بهینه و با `apksigner` (v1/v2/v3) امضا شده است.
 
-          ### ✨ ویژگی‌های برجسته:
-          - **۳۰ موتور اختصاصی کامل**: استودیو PDF سازمانی، ویرایشگر تصویر لایه‌ای، ویدیو استودیو و پرده سبز، DAW موسیقی و درام‌ماشین، ماشین‌حساب و نمودار ۲D/3D، مبدل جامع و نرخ زنده ارز/طلا/کریپتو، ابزار سخت‌افزار و سنسورهای نیتیو اندروید، گاوصندوق AES-256 و 2FA، ویراستار فارسی، ابزار توسعه‌دهنده و پست‌من، تحلیلگر APK و ZIP، شبکه و DNS، سلامت، مالی و فارکس، بهره‌وری، سفر و هواشناسی، آشپزی، ۳۰ بازی قابل اجرا، هوش مصنوعی رایگان، شخصی‌سازی و اتوماسیون، دسترسی‌پذیری و کوررنگی، والدین و کودک، کسب‌وکار و فاکتور/POS/Excel، چاپ نیتیو و پیش‌نمایش سه‌بعدی، واقعیت افزوده AR، ریموت IR و IoT، دیاگ خودرو OBD-II/HUD/VIN، کشاورزی و نقشه ستارگان، و کاوشگر ۱۷۸+ API رایگان.
+          ### ✨ در این نسخه
+          - **دسته ۳۱ تازه — Smart Utilities 2.0:** عدد به حروف فارسی، اسلاگ فارسی، JSON↔CSV و مقایسه ساختاری، توضیح‌گر Cron، UUID/ULID/NanoID، تاریخ جلالی و تایم‌استمپ، کارت/شبا/کد ملی، قیمت واحد، سن دقیق، درصد و تخفیف، آزمایشگاه رنگ با کنتراست WCAG، سازنده QR (وای‌فای/ویزیت/پیامک)، Base64، نمایشگر CSV، پیش‌نمایش Markdown، متن نمونه فارسی، قرعه‌کشی و تقسیم صورتحساب.
+          - **پالت فرمان (Ctrl/⌘ + K)** با جستجوی فازی و کنترل کامل با کیبورد.
+          - **رابط کاربری تازه:** سیستم طراحی ۲.۰، حالت روشن/تاریک/OLED دقیق‌تر، انیمیشن‌های ملایم، احترام به «کاهش حرکت»، ناحیه امن دستگاه.
+          - **لینک مستقیم هر ابزار** (`#/tool/…`) و اشتراک‌گذاری با Share Sheet اندروید.
+          - **آیکون و هویت بصری جدید** (حلقه آهنگری) با هندسه برداری در همه تراکم‌ها و اسپلش تازه.
+          - **نام ثبت‌شده روی گوشی:** `OmniForge Pro` (انگلیسی).
+          - بهینه‌سازی بارگذاری موتورها، کش آفلاین PWA و پایداری تست‌ها.
+
+          ### 🧪 کیفیت
+          - `npx vitest run` — ۲۴ تست خودکار (کاتالوگ، رمزنگاری، NLP فارسی، ابزارهای هوشمند)
+          - بیلد تولیدی TypeScript + Vite بدون خطا
           EOF
 
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" \
-              release-artifacts/OmniForge-Pro-v1.0.0.apk \
+              "release-artifacts/OmniForge-Pro-v${APP_VERSION}.apk" \
               release-artifacts/SHA256SUMS.txt \
               --clobber
             gh release edit "$TAG" \
@@ -142,7 +165,7 @@ jobs:
               --latest
           else
             gh release create "$TAG" \
-              release-artifacts/OmniForge-Pro-v1.0.0.apk \
+              "release-artifacts/OmniForge-Pro-v${APP_VERSION}.apk" \
               release-artifacts/SHA256SUMS.txt \
               --target "$GITHUB_SHA" \
               --title "$TITLE" \

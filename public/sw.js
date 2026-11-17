@@ -1,5 +1,5 @@
-const CACHE_NAME = 'omniforge-pro-v1';
-const CORE_ASSETS = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png'];
+const CACHE_NAME = 'omniforge-pro-v2';
+const CORE_ASSETS = ['./', './index.html', './manifest.json', './favicon.png', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).catch(() => {}));

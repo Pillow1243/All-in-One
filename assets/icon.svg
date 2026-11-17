@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs><linearGradient id="forge-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#131c42"/><stop offset="55%" stop-color="#0c1330"/><stop offset="100%" stop-color="#080d1e"/>
+    </linearGradient></defs><rect x="0" y="0" width="1024" height="1024" rx="0" fill="url(#forge-bg)"/>
+  
+  <g transform="translate(0 0) scale(1)">
+    <defs>
+      <mask id="forge-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+        <rect x="0" y="0" width="1024" height="1024" fill="#fff"/>
+        <rect x="678.14" y="627.14" width="34" height="136.00" transform="rotate(-45 695.14 695.14)" fill="#000"/>
+<rect x="311.86" y="627.14" width="34" height="136.00" transform="rotate(45 328.86 695.14)" fill="#000"/>
+<rect x="311.86" y="260.86" width="34" height="136.00" transform="rotate(135 328.86 328.86)" fill="#000"/>
+<rect x="678.14" y="260.86" width="34" height="136.00" transform="rotate(225 695.14 328.86)" fill="#000"/>
+      </mask>
+    </defs>
+    <path d="M803.95 632.93L632.93 803.95L391.07 803.95L220.05 632.93L220.05 391.07L391.07 220.05L632.93 220.05L803.95 391.07ZM589.30 698.62L434.70 698.62L325.38 589.30L325.38 434.70L434.70 325.38L589.30 325.38L698.62 434.70Z" fill="#ffffff" fill-rule="evenodd" mask="url(#forge-gaps)"/>
+    <rect x="430" y="430" width="164" height="164" transform="rotate(45 512 512)" fill="#ffb020"/>
+  </g>
+</svg>
