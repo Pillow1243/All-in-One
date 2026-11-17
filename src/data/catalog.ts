@@ -31,6 +31,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: 'automotive', number: 28, nameFa: 'خودرو و رانندگی', nameEn: 'Automotive', descriptionFa: 'دیاگ OBD-II، سرعت‌سنج HUD، ثبت سفر، یادآور پارکینگ، سرویس دوره‌ای، دوربین داش‌کم و VIN', descriptionEn: 'OBD-II DTC, HUD Speedometer, Parking Pin, Dashcam & VIN Decoder', icon: 'Car', gradient: 'from-red-500 to-amber-500', accentHex: '#ef4444', toolCountTarget: 10 },
   { id: 'nature', number: 29, nameFa: 'کشاورزی و طبیعت', nameEn: 'Nature & AgriTech', descriptionFa: 'شناسایی و مراقبت گیاهان، رطوبت خاک زنده، موقعیت خورشید و ماه، نقشه ستارگان و باغبانی', descriptionEn: 'Plant Care, Live Soil Moisture, Sun/Moon Calc, Star Map & Garden', icon: 'Sprout', gradient: 'from-lime-500 to-green-600', accentHex: '#84cc16', toolCountTarget: 10 },
   { id: 'platform', number: 30, nameFa: 'زیرساخت پلتفرم و APIها', nameEn: 'Platform OS & APIs', descriptionFa: 'پلاگین و مارکت‌پلیس، کاوشگر ۱۷۸+ API رایگان، ۵۰+ زبان، آمار، آپدیت گیت‌هاب و تنظیمات پیشرفته', descriptionEn: 'Plugins, 178+ Public APIs Explorer, 50+ Languages, Analytics & Updates', icon: 'Settings2', gradient: 'from-slate-500 to-cyan-600', accentHex: '#06b6d4', toolCountTarget: 30 },
+  { id: 'smart', number: 31, nameFa: 'ابزارهای هوشمند ۲.۰', nameEn: 'Smart Utilities 2.0', descriptionFa: 'عدد به حروف فارسی، اسلاگ، JSON↔CSV و دیف، Cron، UUID/ULID، تاریخ جلالی، کارت/شبا/کد ملی، قیمت واحد، کنتراست WCAG و QR', descriptionEn: 'Persian Number Words, Slug, JSON↔CSV/Diff, Cron, UUID/ULID, Jalali, Card/Sheba/National-ID, Unit Price, WCAG Contrast & QR', icon: 'Wand2', gradient: 'from-emerald-400 via-cyan-500 to-indigo-600', accentHex: '#14b8a6', toolCountTarget: 24 },
 ];
 
 type RawToolDef = [id: string, nameFa: string, nameEn: string, mode: string, badge?: ToolItem['badge']];
@@ -1204,6 +1205,34 @@ export const ALL_TOOLS: ToolItem[] = [
     ['ab-test', 'تنظیمات آزمایشی A/B UI', 'A/B Feature Flags', 'system'],
     ['remote-config', 'پیکربندی پویا (Remote Config JSON)', 'Remote Config Inspector', 'system'],
   ]),
+  // 31. Smart Utilities 2.0 (24)
+  ...buildCategoryTools('smart', [
+    ['words', 'عدد به حروف فارسی', 'Persian Number to Words', 'words', 'OFFLINE'],
+    ['slug', 'اسلاگ و آواگردانی لاتین', 'Persian Slug Generator', 'slug', 'OFFLINE'],
+    ['jsoncsv', 'تبدیل JSON و CSV', 'JSON to CSV Converter', 'jsoncsv', 'OFFLINE'],
+    ['jsondiff', 'مقایسه ساختاری JSON', 'Structural JSON Diff', 'jsondiff', 'OFFLINE'],
+    ['cron', 'توضیح‌گر عبارت Cron', 'Cron Expression Explainer', 'cron', 'OFFLINE'],
+    ['ids', 'تولید UUID / ULID / NanoID', 'UUID / ULID / NanoID', 'ids', 'OFFLINE'],
+    ['time', 'تاریخ، جلالی و تایم‌استمپ', 'Timestamp & Jalali Converter', 'time', 'OFFLINE'],
+    ['cases', 'تبدیل حالت متن', 'Text Case Converter', 'cases', 'OFFLINE'],
+    ['passphrase', 'سازنده عبارت عبور', 'Memorable Passphrase', 'passphrase', 'OFFLINE'],
+    ['qr', 'سازنده QR (وای‌فای/ویزیت)', 'QR Builder (WiFi/vCard)', 'qr', 'OFFLINE'],
+    ['cards', 'اعتبارسنجی کارت، شبا و کد ملی', 'Card / SHEBA / National-ID', 'cards', 'OFFLINE'],
+    ['unitprice', 'مقایسه قیمت واحد', 'Unit Price Comparator', 'unitprice', 'OFFLINE'],
+    ['datediff', 'اختلاف تاریخ و سن دقیق', 'Date Difference & Exact Age', 'datediff', 'OFFLINE'],
+    ['percent', 'درصد، تخفیف و تغییر', 'Percent & Discount Calculator', 'percent', 'OFFLINE'],
+    ['color', 'آزمایشگاه رنگ و کنتراست WCAG', 'Color Lab & WCAG Contrast', 'color', 'OFFLINE'],
+    ['image', 'تصویر به Base64 و برعکس', 'Image ⇄ Base64', 'image', 'OFFLINE'],
+    ['csv', 'نمایشگر جدولی CSV', 'CSV Table Viewer', 'csv', 'OFFLINE'],
+    ['markdown', 'پیش‌نمایش زنده Markdown', 'Live Markdown Preview', 'markdown', 'OFFLINE'],
+    ['lorem', 'متن نمونه فارسی', 'Persian Lorem Ipsum', 'lorem', 'OFFLINE'],
+    ['random', 'قرعه‌کشی و انتخاب تصادفی', 'Seeded Random Picker', 'random', 'OFFLINE'],
+    ['bill', 'تقسیم صورتحساب و انعام', 'Bill Split & Tip', 'bill', 'OFFLINE'],
+    ['b64', 'کدگذاری Base64 متن', 'Text Base64 Encode/Decode', 'b64', 'OFFLINE'],
+    ['nanoid', 'شناسه کوتاه و رمز یکبارمصرف', 'Short ID & Token Generator', 'ids', 'OFFLINE'],
+    ['wcag', 'بررسی دسترسی‌پذیری رنگ‌ها', 'Accessible Color Picker', 'color', 'OFFLINE'],
+  ]),
+
 ];
 
 export const CATEGORY_MAP: Record<string, CategoryMeta> = Object.fromEntries(

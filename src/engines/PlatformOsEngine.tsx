@@ -184,7 +184,7 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
       {tab === 'updates' && (
         <div className="glass-card rounded-2xl p-4 space-y-3 text-xs">
           <h3 className="font-bold text-sm flex items-center gap-2"><RefreshCw className="w-4 h-4 text-cyan-400" /> بررسی زنده آپدیت APK از ریلیز گیت‌هاب</h3>
-          <div>نسخه فعلی نصب‌شده: <strong className="font-mono text-emerald-400">v1.0.0 (OmniForge Pro)</strong></div>
+          <div>نسخه فعلی نصب‌شده: <strong className="font-mono text-emerald-400">v2.0.0 (OmniForge Pro)</strong></div>
           <button
             onClick={async () => {
               try {
@@ -213,7 +213,7 @@ export const PlatformOsEngine: React.FC<EngineProps> = ({ tool, settings, onUpda
         <div className="glass-card rounded-2xl p-4 space-y-3 text-xs">
           <h3 className="font-bold text-sm flex items-center gap-2"><Sparkles className="w-4 h-4 text-amber-400" /> حساب کاربری و تضمین ۱۰۰٪ رایگان همیشگی</h3>
           <div className="rounded-xl bg-emerald-950/50 border border-emerald-500/40 p-3 text-emerald-200">
-            ✅ اشتراک شما: <strong>OmniForge Pro — رایگان همیشگی و بدون تبلیغات (All 995+ Tools Unlocked)</strong>
+            ✅ اشتراک شما: <strong>OmniForge Pro — رایگان همیشگی و بدون تبلیغات (All 1,060+ Tools Unlocked)</strong>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <label>نام کاربر<input className="omni-input mt-1" value={settings.userName} onChange={(e) => onUpdateSettings({ userName: e.target.value })} /></label>

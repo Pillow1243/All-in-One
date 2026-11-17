@@ -1,24 +1,39 @@
 {
-  "name": "OmniForge Pro — همه‌کاره پرو",
+  "name": "OmniForge Pro",
   "short_name": "OmniForge",
-  "description": "جعبه ابزار جامع اندرویدی با ۳۰ دسته و بیش از ۹۹۵ ابزار رایگان",
+  "description": "31 categories and 1,020+ offline tools — PDF, media, developer, security, finance, health, games and Persian smart utilities. Free and ad-free.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#050814",
-  "theme_color": "#050814",
+  "background_color": "#070b18",
+  "theme_color": "#070b18",
   "orientation": "portrait-primary",
   "icons": [
     {
       "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
+  ],
+  "lang": "fa",
+  "dir": "rtl",
+  "categories": [
+    "productivity",
+    "utilities",
+    "developer",
+    "security",
+    "multimedia"
   ]
 }

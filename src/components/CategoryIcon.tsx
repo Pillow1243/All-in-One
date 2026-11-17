@@ -3,14 +3,14 @@ import {
   FileText, Image, Film, Music, Calculator, ArrowLeftRight, Cpu, Shield, ShieldCheck,
   Type, Code2, FolderKanban, Wifi, HeartPulse, TrendingUp, GraduationCap, Compass,
   ChefHat, Gamepad2, Sparkles, Cloud, Palette, Eye, Accessibility, Baby, Briefcase,
-  Printer, ScanEye, Watch, Car, Sprout, Settings2, Wrench,
+  Printer, ScanEye, Watch, Car, Sprout, Settings2, Wrench, Wand2, Command, Gauge,
 } from 'lucide-react';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   FileText, Image, Film, Music, Calculator, ArrowLeftRight, Cpu, Shield, ShieldCheck,
   Type, Code2, FolderKanban, Wifi, HeartPulse, TrendingUp, GraduationCap, Compass,
   ChefHat, Gamepad2, Sparkles, Cloud, Palette, Eye, Accessibility, Baby, Briefcase,
-  Printer, ScanEye, Watch, Car, Sprout, Settings2,
+  Printer, ScanEye, Watch, Car, Sprout, Settings2, Wand2, Command, Gauge,
 };
 
 export const CategoryIcon: React.FC<{ name: string; className?: string }> = ({ name, className = 'w-5 h-5' }) => {

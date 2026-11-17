@@ -31,6 +31,7 @@ const WearableIotEngine = lazy(() => import('../engines/WearableIotEngine').then
 const AutomotiveEngine = lazy(() => import('../engines/AutomotiveEngine').then((m) => ({ default: m.AutomotiveEngine })));
 const NatureAgriEngine = lazy(() => import('../engines/NatureAgriEngine').then((m) => ({ default: m.NatureAgriEngine })));
 const PlatformOsEngine = lazy(() => import('../engines/PlatformOsEngine').then((m) => ({ default: m.PlatformOsEngine })));
+const SmartToolsEngine = lazy(() => import('../engines/SmartToolsEngine').then((m) => ({ default: m.SmartToolsEngine })));
 
 class EngineBoundary extends React.Component<{ children: React.ReactNode }, { err: string | null }> {
   constructor(props: { children: React.ReactNode }) {
@@ -86,6 +87,7 @@ export const EngineRouter: React.FC<EngineProps> = (props) => {
       case 'iot': return <WearableIotEngine {...props} />;
       case 'automotive': return <AutomotiveEngine {...props} />;
       case 'nature': return <NatureAgriEngine {...props} />;
+      case 'smart': return <SmartToolsEngine {...props} />;
       case 'platform': return <PlatformOsEngine {...props} />;
       default: return <PlatformOsEngine {...props} />;
     }

@@ -9,7 +9,7 @@ export const DeveloperEngine: React.FC<EngineProps> = ({ tool, onToast }) => {
   const [tab, setTab] = useState<DevTab>((tool.mode as DevTab) || 'format');
 
   // JSON / Code Formatter
-  const [codeIn, setCodeIn] = useState('{"app":"OmniForge Pro","version":"1.0.0","free":true,"categories":30,"tools":1000}');
+  const [codeIn, setCodeIn] = useState('{"app":"OmniForge Pro","version":"2.0.0","free":true,"categories":31,"tools":1060}');
   const [codeOut, setCodeOut] = useState('');
 
   // JWT Decoder
